@@ -38,4 +38,16 @@ ALTER TABLE books
 
 INSERT INTO writingGroups VALUES('Writers Annonymous','Elon Musk','2018','Fiction');
 INSERT INTO writingGroups VALUES('Awesome Writers','Steve Jobs','2013','Mystery');
-SELECT * FROM writingGroups
+INSERT INTO writingGroups VALUES('Resounding Maybe','John Doe','2000','Science Fiction');
+
+INSERT INTO publishers VALUES('Publishers R Us', '123 Writers St', '555-555-5555', 'pubRus@writing.com');
+INSERT INTO publishers VALUES('We Publish 4 U', '777 Lucky Lane', '777-777-7777', 'pub4hire@writing.com');
+INSERT INTO publishers VALUES('Publisher For You', '321 State St', '012-345-6789', 'publishers@gmail.com');
+
+INSERT INTO books VALUES('To Mars and Back', '2018', '1200', 'Writers Annonymous', 'Publishers R Us');
+INSERT INTO books VALUES('Electric Cars', '2018', '1000', 'Writers Annonymous', 'Publishers R Us');
+INSERT INTO books VALUES('Star Trek Wars', '2005', '20000', 'Resounding Maybe', 'Publisher For You');
+
+SELECT * FROM writingGroups;
+SELECT * FROM publishers;
+SELECT * FROM books;
