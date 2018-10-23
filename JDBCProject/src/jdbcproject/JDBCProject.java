@@ -44,6 +44,9 @@ public class JDBCProject {
                 System.out.println("9) Remove a book");//do
                 System.out.println("0) Exit");
                 userChoice = menuChoice.nextInt();
+                
+                
+                // 3-7
                 switch (userChoice) {
                     case 0: {
                         cont = false;
@@ -101,18 +104,133 @@ public class JDBCProject {
                         break;
                     }
                     case 3: {
+                        System.out.println("List all publishers");
+                        stmt = conn.createStatement();
+                        String sql = "SELECT publisherName from publishers";
+                  
+                        ResultSet rs = stmt.executeQuery(sql);
+                        while (rs.next()) {
+                            //Retrieve by column name
+                            String groupName = rs.getString("publisherName");
+
+                            //Display values
+                            System.out.print("Publisher Name: " + groupName + "\n");
+                        }
+                        
+                        
+                        rs.close();
+                      
                         break;
                     }
                     case 4: {
+                        Scanner groupNam = new Scanner(System.in);
+                        //STEP 4: Execute a query
+                        System.out.println("Please enter the name of the publisher for which you want the data of:");
+                        String userInput = groupNam.nextLine();
+                        String sql;
+                        sql = "SELECT publisherAddress, publisherEmail, publisherPhone FROM publishers WHERE publisherName = ?";
+                        PreparedStatement pstmt = conn.prepareStatement(sql);
+                        pstmt.setString(1, userInput);
+                        
+                        ResultSet rs = pstmt.executeQuery();
+                        
+                        while (rs.next()) {
+                            //Retrieve by column name
+                            String addy = rs.getString("publisherAddress");
+                            String email = rs.getString("publisherEmail");
+                            String phone = rs.getString("publisherPhone");
+
+                            //Display values
+                            System.out.print("Group Name: " + userInput);
+                            System.out.print(",Email: " + email);
+                            System.out.print(", phone: " + phone);
+                            System.out.println(", Address: " + addy);
+                        }
+                        rs.close();
+                        pstmt.close();
+                        
                         break;
                     }
                     case 5: {
+                        System.out.println("List all book titles:");
+                        stmt = conn.createStatement();
+                        String sql = "SELECT bookTitle from books";
+                  
+                        ResultSet rs = stmt.executeQuery(sql);
+                        while (rs.next()) {
+                            //Retrieve by column name
+                            String bookTitle = rs.getString("bookTitle");
+
+                            //Display values
+                            System.out.print("Book Title: " + bookTitle + "\n");
+                        }
+                        
+                        
+                        rs.close();
                         break;
                     }
                     case 6: {
+                        Scanner groupNam = new Scanner(System.in);
+                        //STEP 4: Execute a query
+                        System.out.println("Please enter the name of the book for which you want the data of:");
+                        String userInput = groupNam.nextLine();
+                        String sql;
+                        sql = "SELECT yearPublished, numberPages, groupName, publisherName FROM books WHERE bookTitle = ?";
+                        PreparedStatement pstmt = conn.prepareStatement(sql);
+                        pstmt.setString(1, userInput);
+                        
+                        ResultSet rs = pstmt.executeQuery();
+                        
+                        while (rs.next()) {
+                            //Retrieve by column name
+                            String yearPublished = rs.getString("yearPublished");
+                            String numberPages = rs.getString("numberPages");
+                            String groupName = rs.getString("groupName");
+                            String publisherName = rs.getString("publisherName");
+
+                            //Display values
+                            System.out.println("||---------------------------------------||");
+                            System.out.println("|| Book Title: " + userInput);
+                            System.out.println("|| Group Name: " + groupName);
+                            System.out.println("|| Email: " + yearPublished);
+                            System.out.println("|| Year Published: " + numberPages);
+                            System.out.println("|| Publisher Name: " + publisherName);
+                            System.out.println("||---------------------------------------||");
+                        }
+                        rs.close();
+                        pstmt.close();
                         break;
                     }
                     case 7: {
+                        Scanner scan = new Scanner(System.in);
+                        //STEP 4: Execute a query
+                        System.out.println("Please enter the name of the book you want to input:");
+                        String bookTitle = scan.nextLine();
+                        
+                        System.out.println("Please enter the year of this book:");
+                        String  year = scan.nextLine();
+                        
+                        System.out.println("Please enter the page number of this book:");
+                        String  pageLength = scan.nextLine();
+                        
+                        System.out.println("Please enter the publisher of this book:");
+                        String  publisher = scan.nextLine();
+                        
+                        System.out.println("Please enter the Writing Group of this book:");
+                        String  writingGroup = scan.nextLine();
+                        
+                        
+                        String sql;
+                        //INSERT INTO books VALUES('Cool Booko','2009','170','Awesome Writers','Nicks Books')
+                        sql = "INSERT INTO books VALUES('?','?','?','?',?')";
+                        //PreparedStatement pstmt = conn.prepareStatement(sql);
+                        //pstmt.setString(1, bookTitle);
+                        //pstmt.setString(2, year);
+                        //pstmt.setString(3, pageLength);
+                        //pstmt.setString(5, publisher);
+                        //pstmt.setString(4, writingGroup);
+                        
+                       // pstmt.executeQuery();
                         break;
                     }
                     case 8: {
