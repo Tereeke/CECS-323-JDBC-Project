@@ -70,26 +70,36 @@ public class JDBCProject {
                         groupNam.reset();
                         System.out.println("Please enter the name of the group for which you want the data of:");
                         String userInput = groupNam.nextLine();
-                        String sql;
-                        sql = "SELECT * FROM writingGroups NATURAL JOIN books NATURAL JOIN publishers WHERE groupName = ?";
-                        PreparedStatement pstmt = conn.prepareStatement(sql);
-                        pstmt.setString(1, userInput);
-                        ResultSet rs = pstmt.executeQuery();
-                        if(!rs.next())
+                        String sqlGroup;
+                        sqlGroup = "SELECT * FROM writingGroups";
+                        stmt = conn.createStatement();
+                        ResultSet rsGroup = stmt.executeQuery(sqlGroup);
+                        if(!rsGroup.next())
                         {
                             System.out.println("No such group exists.");
                             break;
-                        }
-                        while (rs.next()) {
-                            String groupName = rs.getString("groupName");
-                            String headWriter = rs.getString("headWriter");
-                            String yearFormed = rs.getString("yearFormed");
-                            String subject = rs.getString("subject");
+                        }else
+                        {
+                            String groupName = rsGroup.getString("groupName");
+                            String headWriter = rsGroup.getString("headWriter");
+                            String yearFormed = rsGroup.getString("yearFormed");
+                            String subject = rsGroup.getString("subject");
                             System.out.println("Group Name: " + groupName);
                             System.out.print("Head Writer: " + headWriter);
                             System.out.print(", Year Formed: " + yearFormed);
                             System.out.println(", Subject: " + subject);
                             System.out.println("Books Written: ");
+                        }
+                        stmt.close();
+                        rsGroup.close();
+                        String sql;
+                        sql = "SELECT bookTitle, yearPublished, numberPages,"
+                                + "publisherName, publisherAddress, publisherPhone,"
+                                + "publisherEmail FROM writingGroups NATURAL JOIN books NATURAL JOIN publishers WHERE groupName = ?";
+                        PreparedStatement pstmt = conn.prepareStatement(sql);
+                        pstmt.setString(1, userInput);
+                        ResultSet rs = pstmt.executeQuery();
+                        while (rs.next()) {
                             String book = rs.getString("bookTitle");
                             String yearPublished = rs.getString("yearPublished");
                             String numberPages = rs.getString("numberPages");
@@ -111,6 +121,16 @@ public class JDBCProject {
                         break;
                     }
                     case 3: {
+                        System.out.println("List all publishers");
+                        stmt = conn.createStatement();
+                        String sql = "SELECT publisherName from publishers";
+
+                        ResultSet rs = stmt.executeQuery(sql);
+                        while (rs.next()) {
+                            String groupName = rs.getString("publisherName");
+                            System.out.print("Publisher Name: " + groupName + "\n");
+                        }
+                        rs.close();
                         break;
                     }
                     case 4: {
